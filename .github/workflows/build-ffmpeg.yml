@@ -97,6 +97,17 @@ jobs:
           make install
           cd ..
 
+      - name: Build libunibreak
+        run: |
+          git clone --depth 1 https://github.com/adah1972/libunibreak.git
+          cd libunibreak
+          PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./configure \
+            --prefix="$HOME/ffmpeg_build" \
+            --disable-shared \
+            --enable-static
+          make -j$(nproc)
+          make install
+          cd ..
       - name: Build Harfbuzz
         run: |
           git clone --depth 1 https://github.com/harfbuzz/harfbuzz.git
