@@ -161,7 +161,20 @@ jobs:
             -DHIGH_BIT_DEPTH=ON ../../source
           PATH="$HOME/bin:$PATH" make -j$(nproc)
           make install
-          cd ../../..
+      - name: Build kvazaar
+        run: |
+          git clone -depth 1 https://github.com/ultravideo/kvazaar.git
+          cd kvazaar 
+          ./autogen.sh
+          PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" \
+            ./configure --prefix="$HOME/ffmpeg_build" \
+            --bindir="$HOME/bin" \
+            --enable-static \
+            --disable-shared
+          PATH="$HOME/bin:$PATH" make -j$(nproc)
+          make install
+          ldconfig
+
 
       - name: Build x264
         run: |
@@ -248,8 +261,11 @@ jobs:
             --extra-ldflags="-L$HOME/ffmpeg_build/lib" \
             --extra-libs="-lpthread -lm" \
             --enable-gpl \
+            --enable-alsa\
+            --enable-pulseaudio\
             --enable-libx264 \
             --enable-libx265 \
+            --enable-libkvazaar \
             --enable-libvpx \
             --enable-libfdk-aac \
             --enable-libmp3lame \
