@@ -21,7 +21,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libdav1d-dev libaom-dev libfdk-aac-dev libvpx-dev libopus-dev libx264-dev libx265-dev zip meson \
-            nasm autogen automake libtool libfreetype6-dev libfontconfig1-dev libfribidi-dev libssl-dev libharfbuzz-dev cmake
+            nasm autogen automake libtool libfreetype6-dev libfontconfig1-dev libfribidi-dev libssl-dev libharfbuzz-dev cmake yasm wget
       - name: Build HDR Stuff
         run: |
           curl https://sh.rustup.rs -sSf | sh -s -- -y
@@ -190,7 +190,7 @@ jobs:
 
       - name: Build DAV1D
         run: |
-          git -C dav1d pull 2> /dev/null || git clone --depth 1 https://code.videolan.org/videolan/dav1d.git
+          git -C dav1d pull 2> /dev/null || git clone --depth 1 https://github.com/videolan/dav1d.git
           mkdir -p dav1d/build
           cd dav1d/build
           meson setup -Denable_tools=false \
