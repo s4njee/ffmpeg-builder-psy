@@ -168,19 +168,6 @@ jobs:
           ldconfig
 
 
-      - name: Build x264
-        run: |
-          git -C x264 pull 2> /dev/null || git clone --depth 1 https://code.videolan.org/videolan/x264.git
-          cd x264
-          PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" \
-            ./configure --prefix="$HOME/ffmpeg_build" \
-            --bindir="$HOME/bin" \
-            --enable-static \
-            --enable-pic
-          PATH="$HOME/bin:$PATH" make -j$(nproc)
-          make install
-          cd ..
-
       - name: Build Opus
         run: |
           git -C opus pull 2> /dev/null || git clone --depth 1 https://github.com/xiph/opus.git
